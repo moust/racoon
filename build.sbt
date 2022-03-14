@@ -1,6 +1,7 @@
 import Dependencies._
 
 ThisBuild / organization := "com.moust.racoon"
+ThisBuild / organizationName := "Quentin Aupetit"
 ThisBuild / licenses := Seq(License.Apache2)
 
 ThisBuild / scalaVersion := "2.12.15"

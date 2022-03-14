@@ -1,10 +1,11 @@
 racoon - Search query parser and converter for Scala
 =========
 
-![master](https://github.com/moust/racoon/workflows/master/badge.svg)
+![ci](https://github.com/moust/racoon/actions/workflows/ci.yml/badge.svg)
 [![racoon-core Scala version support](https://index.scala-lang.org/moust/racoon/racoon-core/latest-by-scala-version.svg)](https://index.scala-lang.org/moust/racoon/racoon-core)
 [<img src="https://img.shields.io/nexus/s/https/oss.sonatype.org/com.moust.racoon/racoon-core_2.13.svg?label=latest%20snapshot&style=plastic"/>](https://oss.sonatype.org/content/repositories/snapshots/com/moust/racoon/)
-![Maven Central](https://img.shields.io/maven-central/v/com.moust/racoon-core_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/com.moust/racoon-core_2.12)
+[![Maven Central](https://img.shields.io/maven-central/v/com.moust/racoon-core_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/com.moust/racoon-core_2.12)
+[![Javadocs](https://javadoc.io/badge/com.moust/racoon-core_2.12.svg)](https://javadoc.io/doc/com.moust/racoon-core_2.12)
 
 **racoon** is a pure functional Scala library for parsing search query strings and converting them for various query language like SQL ([doobie](https://github.com/tpolecat/doobie)) or elasticsearch ([elastic4s](https://github.com/sksamuel/elastic4s)) for example. 
 
