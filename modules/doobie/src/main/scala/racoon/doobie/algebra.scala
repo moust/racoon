@@ -24,7 +24,6 @@ import racoon.operators._
 trait algebra {
 
   implicit val doobieAlgebra: ToAlgebra[Fragment] = new ToAlgebra[Fragment] { self =>
-
     implicit class ConstOps(a: Const) {
       def toFragment: Fragment = const(a).value
     }
@@ -43,15 +42,15 @@ trait algebra {
 
     override def value[T](a: Value[T]): Algebra[Fragment] = new Algebra[Fragment] {
       val value: Fragment = a match {
-        case Value(v: String) => Fragments.values[String](v)
-        case Value(v: Long) => Fragments.values[Long](v)
-        case Value(v: Int) => Fragments.values[Int](v)
-        case Value(v: Short) => Fragments.values[Short](v)
-        case Value(v: Byte) => Fragments.values[Byte](v)
+        case Value(v: String)     => Fragments.values[String](v)
+        case Value(v: Long)       => Fragments.values[Long](v)
+        case Value(v: Int)        => Fragments.values[Int](v)
+        case Value(v: Short)      => Fragments.values[Short](v)
+        case Value(v: Byte)       => Fragments.values[Byte](v)
         case Value(v: BigDecimal) => Fragments.values[BigDecimal](v)
-        case Value(v: Double) => Fragments.values[Double](v)
-        case Value(v: Float) => Fragments.values[Float](v)
-        case Value(v: Boolean) => Fragments.values[Boolean](v)
+        case Value(v: Double)     => Fragments.values[Double](v)
+        case Value(v: Float)      => Fragments.values[Float](v)
+        case Value(v: Boolean)    => Fragments.values[Boolean](v)
         case _ => throw new UnsupportedOperationException(s"Value $a of type ${a.getClass} is not supported.")
       }
     }

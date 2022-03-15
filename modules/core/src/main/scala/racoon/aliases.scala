@@ -23,11 +23,11 @@ trait Aliases extends Types with Modules
 trait Types {
   type Algebra[A]   = racoon.util.Algebra[A]
   type ToAlgebra[A] = racoon.util.ToAlgebra[A]
-  type Op = racoon.util.operators.Op
+  type Op           = racoon.util.operators.Op
 }
 
 /** Mixn containing aliases for the most commonly used mocules from core */
 trait Modules {
-  val Parser = racoon.util.parser
-  val operators = racoon.util.operators
+  val Parser: racoon.util.parser.type       = racoon.util.parser
+  val operators: racoon.util.operators.type = racoon.util.operators
 }

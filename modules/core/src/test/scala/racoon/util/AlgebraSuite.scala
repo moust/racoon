@@ -16,7 +16,6 @@
 
 package racoon.util
 
-import cats.data.NonEmptyList
 import cats.syntax.eq._
 import racoon.operators._
 import implicits._
@@ -27,21 +26,21 @@ import scala.reflect._
 
 class AlgebraSuite extends munit.ScalaCheckSuite {
 
-  def testType[A: Arbitrary: ClassTag]: Unit =
+  def testType[A: Arbitrary: ClassTag](): Unit =
     test(s"Value[${classTag[A]}]") {
       forAll { (x: A) =>
         assert(Value(x).value.toString === x.toString)
       }
     }
 
-  testType[Byte]
-  testType[Short]
-  testType[Int]
-  testType[Long]
-  testType[BigDecimal]
-  testType[Float]
-  testType[Double]
-  testType[String]
+  testType[Byte]()
+  testType[Short]()
+  testType[Int]()
+  testType[Long]()
+  testType[BigDecimal]()
+  testType[Float]()
+  testType[Double]()
+  testType[String]()
 
   test("""foo = "bar"""") {
     assertEquals(
@@ -143,7 +142,10 @@ class AlgebraSuite extends munit.ScalaCheckSuite {
 
   test("""(x = 5) and (((y = 2.1) or (z != -2)) or (p = "foo"))""") {
     assertEquals(
-      And(Eql(Const("x"),Value(5)),Or(Or(Eql(Const("y"),Value(2.1)),NotEql(Const("z"),Value(-2))),Eql(Const("p"),Value("foo")))).algebra[String].value,
+      And(
+        Eql(Const("x"), Value(5)),
+        Or(Or(Eql(Const("y"), Value(2.1)), NotEql(Const("z"), Value(-2))), Eql(Const("p"), Value("foo")))
+      ).algebra[String].value,
       """(x = 5) and (((y = 2.1) or (z != -2)) or (p = "foo"))"""
     )
   }

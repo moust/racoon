@@ -21,7 +21,6 @@ import racoon.operators._
 package object implicits {
 
   implicit lazy val stringAlgebra: ToAlgebra[String] = new ToAlgebra[String] { self =>
-
     def const(a: Const): Algebra[String] = new Algebra[String] {
       val value: String = a.value
     }
@@ -29,7 +28,7 @@ package object implicits {
     def value[T](a: Value[T]): Algebra[String] = new Algebra[String] {
       val value: String = a match {
         case Value(v: String) => s""""$v""""
-        case Value(v) => s"${v.toString}"
+        case Value(v)         => s"${v.toString}"
       }
     }
 

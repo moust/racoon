@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-/**
- * Top-level import, providing aliases for the most commonly used types and modules from
- * racoon-core. A typical starting set of imports would be something like this.
- * {{{
- * import racoon._, racoon.implicits._
- * }}}
- */
-package object racoon
-  extends Aliases {
+/** Top-level import, providing aliases for the most commonly used types and modules from racoon-core. A typical
+  * starting set of imports would be something like this.
+  * {{{
+  * import racoon._, racoon.implicits._
+  * }}}
+  */
+package object racoon extends Aliases {
 
   /** Top-level import for all instances and syntax provided by doobie-free and doobie-core. */
-  object implicits
-    extends syntax.AllSyntax
+  object implicits extends syntax.AllSyntax
 
 }

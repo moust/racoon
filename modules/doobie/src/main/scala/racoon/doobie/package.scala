@@ -18,7 +18,6 @@ package racoon
 
 package object doobie {
 
-  object implicits
-    extends algebra
+  object implicits extends algebra
 
 }

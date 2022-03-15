@@ -26,9 +26,8 @@ object operators {
 
     def algebra[A: ToAlgebra]: Algebra[A]
 
-    /**
-     * Apply `f` recursively to operators
-     */
+    /** Apply `f` recursively to operators
+      */
     def transform(f: Op => Op): Op = f(this)
 
   }

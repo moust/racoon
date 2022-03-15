@@ -24,11 +24,9 @@ import racoon.elastic4s.implicits._
 
 trait algebra {
 
-
   search("")
 
   implicit val elastic4sAlgebra: ToAlgebra[Query] = new ToAlgebra[Query] { self =>
-
     def const(a: Const): Algebra[Query] = throw new UnsupportedOperationException
 
     def value[T](a: Value[T]): Algebra[Query] = throw new UnsupportedOperationException

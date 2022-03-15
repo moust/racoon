@@ -1,25 +1,25 @@
 import Dependencies._
 
-ThisBuild / organization := "com.moust.racoon"
+ThisBuild / organization     := "com.moust.racoon"
 ThisBuild / organizationName := "Quentin Aupetit"
-ThisBuild / licenses := Seq(License.Apache2)
+ThisBuild / licenses         := Seq(License.Apache2)
 ThisBuild / developers := List(
   tlGitHubDev("moust", "Quentin Aupetit")
 )
 
-ThisBuild / scalaVersion := "2.12.15"
+ThisBuild / scalaVersion       := "2.12.15"
 ThisBuild / crossScalaVersions := Seq("2.12.15", "2.13.8")
 
-ThisBuild / tlBaseVersion := "1.0"
-ThisBuild / tlCiReleaseBranches := Seq("master")
+ThisBuild / tlBaseVersion           := "1.0"
+ThisBuild / tlCiReleaseBranches     := Seq("master")
 ThisBuild / tlSonatypeUseLegacyHost := true
 
 lazy val commonSettings = Seq(
   resolvers ++= Seq(Resolver.mavenLocal),
-  Test / parallelExecution := false,
+  Test / parallelExecution      := false,
   Compile / doc / scalacOptions := (Compile / doc / scalacOptions).value.filter(_ != "-Xfatal-warnings"),
   scalacOptions ++= Seq("-unchecked", "-deprecation", "-encoding", "utf8"),
-  testFrameworks += new TestFramework("munit.Framework"),
+  testFrameworks += new TestFramework("munit.Framework")
 )
 
 lazy val warnUnusedImport = Seq(
@@ -27,13 +27,13 @@ lazy val warnUnusedImport = Seq(
   Compile / console / scalacOptions ~= {
     _.filterNot(Set("-Ywarn-unused-import", "-Ywarn-unused:imports"))
   },
-  Test / console / scalacOptions := (Compile / console / scalacOptions).value,
+  Test / console / scalacOptions := (Compile / console / scalacOptions).value
 )
 
 lazy val allSettings =
   commonSettings ++
-  commonDeps ++
-  warnUnusedImport
+    commonDeps ++
+    warnUnusedImport
 
 lazy val root = Project("racoon", file("."))
   .settings(name := "racoon")
@@ -42,7 +42,7 @@ lazy val root = Project("racoon", file("."))
   .aggregate(
     core,
     doobie,
-    elastic4s,
+    elastic4s
   )
 
 lazy val core = (project in file("modules/core"))

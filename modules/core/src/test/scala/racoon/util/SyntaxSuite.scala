@@ -192,7 +192,9 @@ class SyntaxSuite extends munit.FunSuite {
     )
   }
 
-  test("""("user.status" === "active") and (("user.team" === "developer") or ("user.role" in List("admin", "moderator")))""") {
+  test(
+    """("user.status" === "active") and (("user.team" === "developer") or ("user.role" in List("admin", "moderator")))"""
+  ) {
     assertEquals(
       ("user.status" === "active") and (("user.team" === "developer") or ("user.role" in List("admin", "moderator"))),
       And(

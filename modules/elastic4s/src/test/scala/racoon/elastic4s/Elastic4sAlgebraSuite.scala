@@ -29,91 +29,91 @@ class Elastic4sAlgebraSuite extends munit.FunSuite {
   test("""foo = "bar"""") {
     val operator = "foo" === "bar"
     val expected = termQuery("foo", "bar")
-    val result = operator.to[Query]
+    val result   = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo != "bar"""") {
     val operator = "foo" =!= "bar"
     val expected = not(termQuery("foo", "bar"))
-    val result = operator.to[Query]
+    val result   = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo > 0""") {
-    val operator =  "foo" gt 0
+    val operator = "foo" gt 0
     val expected = rangeQuery("foo").gt(0)
-    val result = operator.to[Query]
+    val result   = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo < 100""") {
-    val operator =  "foo" lt 100
+    val operator = "foo" lt 100
     val expected = rangeQuery("foo").lt(100)
-    val result = operator.to[Query]
+    val result   = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo >= 0""") {
     val operator = "foo" gte 0
     val expected = rangeQuery("foo").gte(0)
-    val result = operator.to[Query]
+    val result   = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo <= 100""") {
     val operator = "foo" lte 100
     val expected = rangeQuery("foo").lte(100)
-    val result = operator.to[Query]
+    val result   = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo LIKE "%ba_"""") {
     val operator = "foo" like "%ba_"
     val expected = wildcardQuery("foo", "*ba?")
-    val result = operator.to[Query]
+    val result   = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo NOT LIKE "%ba_"""") {
     val operator = "foo" notLike "%ba_"
     val expected = not(wildcardQuery("foo", "*ba?"))
-    val result = operator.to[Query]
+    val result   = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo EXISTS""") {
     val operator = "foo" notNull
     val expected = existsQuery("foo")
-    val result = operator.to[Query]
+    val result   = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo NOT EXISTS""") {
     val operator = "foo" isNull
     val expected = not(existsQuery("foo"))
-    val result = operator.to[Query]
+    val result   = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo IN [1, 2, 3]""") {
     val operator = "foo" in List(1, 2, 3)
     val expected = termsQuery("foo", NonEmptyList.of(1, 2, 3))
-    val result = operator.to[Query]
+    val result   = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo NOT IN [1, 2, 3]""") {
     val operator = "foo" notIn List(1, 2, 3)
     val expected = not(termsQuery("foo", NonEmptyList.of(1, 2, 3)))
-    val result = operator.to[Query]
+    val result   = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo BETWEEN 1 AND 10""") {
     val operator = "foo" between 1 and 10
     val expected = rangeQuery("foo").gte(1).lte(10)
-    val result = operator.to[Query]
+    val result   = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 

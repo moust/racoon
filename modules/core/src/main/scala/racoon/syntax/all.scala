@@ -16,7 +16,6 @@
 
 package racoon.syntax
 
-trait AllSyntax
-  extends OperatorsDsl
+trait AllSyntax extends OperatorsDsl
 
 object all extends AllSyntax

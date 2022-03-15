@@ -18,7 +18,7 @@ package racoon.util
 
 import cats.data.NonEmptyList
 import cats.syntax.eq._
-import org.scalacheck.{Arbitrary, Gen}
+import org.scalacheck.Arbitrary
 import org.scalacheck.Prop.forAll
 import racoon.operators._
 
