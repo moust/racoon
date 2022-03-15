@@ -3,9 +3,9 @@ racoon - Search query parser and converter for Scala
 
 ![ci](https://github.com/moust/racoon/actions/workflows/ci.yml/badge.svg)
 [![racoon-core Scala version support](https://index.scala-lang.org/moust/racoon/racoon-core/latest-by-scala-version.svg)](https://index.scala-lang.org/moust/racoon/racoon-core)
-[<img src="https://img.shields.io/nexus/s/https/oss.sonatype.org/com.github.moust.racoon/racoon-core_2.13.svg?label=latest%20snapshot&style=plastic"/>](https://oss.sonatype.org/content/repositories/snapshots/com/moust/racoon/)
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.moust/racoon-core_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.moust/racoon-core_2.12)
-[![Javadocs](https://javadoc.io/badge/com.github.moust/racoon-core_2.12.svg)](https://javadoc.io/doc/com.github.moust/racoon-core_2.12)
+[<img src="https://img.shields.io/nexus/s/https/oss.sonatype.org/io.github.moust.racoon/racoon-core_2.13.svg?label=latest%20snapshot&style=plastic"/>](https://oss.sonatype.org/content/repositories/snapshots/com/moust/racoon/)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.moust/racoon-core_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.moust/racoon-core_2.12)
+[![javadoc](https://javadoc.io/badge2/io.github.moust/racoon-core_2.12/javadoc.svg)](https://javadoc.io/doc/io.github.moust/racoon-core_2.12)
 
 **racoon** is a pure functional Scala library for parsing search query strings and converting them for various query language like SQL ([doobie](https://github.com/tpolecat/doobie)) or elasticsearch ([elastic4s](https://github.com/sksamuel/elastic4s)) for example. 
 
@@ -16,17 +16,17 @@ Tu use **racoon** you need to add the following to your `build.sbt`.
 ```scala
 val racoonVersion = "x.x.x"
 libraryDependencies ++= Seq(
-  "com.github.moust" %% "racoon-core" % racoonVersion,
+  "io.github.moust" %% "racoon-core" % racoonVersion,
   // Add any of these as needed
-  "com.github.moust" %% "racoon-doobie" % racoonVersion, // doobie algebra
-  "com.github.moust" %% "racoon-elastic4s" % racoonVersion // elastic4s algebra
+  "io.github.moust" %% "racoon-doobie" % racoonVersion, // doobie algebra
+  "io.github.moust" %% "racoon-elastic4s" % racoonVersion // elastic4s algebra
 )
 ```
 
 ## Parsing search query string
 
 ```scala
-import com.github.moust.racoon._
+import io.github.moust.racoon._
 
 Parser.parse("""user_id = 123 and status = "active"""")
 // => Right(And(Eql(Const("user_id"), Value[Int](123)), Eql(Const("status"), Value[String]("active")))
@@ -37,7 +37,7 @@ Parser.parse("""user_id = 123 and status = "active"""")
 **racoon** define an ADT to write complex query :
 
 ```scala
-import com.github.moust.racoon.operators._
+import io.github.moust.racoon.operators._
 
 val filters = And(
   Eql(Const("user.status"), Value("active"))
@@ -51,7 +51,7 @@ val filters = And(
 Or you can use the syntax api to write more readable query :
 
 ```scala
-import com.github.moust.racoon.implicits._
+import io.github.moust.racoon.implicits._
 
 val filters = ("user.status" === "active") and (("user.team" === "developer") or ("user.role" in List("admin", "moderator")))
 // => And(Eql(Const("user.status"), Value("active")), Or(Eql(Const("user.team"), Value("developer")), In(Const("user.role"), Values(List("admin", "moderator")))))
@@ -60,8 +60,8 @@ val filters = ("user.status" === "active") and (("user.team" === "developer") or
 ## Converting to [doobie](https://github.com/tpolecat/doobie) `Fragment`
 
 ```scala
-import com.github.moust.racoon.doobie.implicits._
-import com.github.moust.racoon.implicits._
+import io.github.moust.racoon.doobie.implicits._
+import io.github.moust.racoon.implicits._
 import doobie.Fragment
 import doobie.implicits._
 
@@ -75,8 +75,8 @@ fr"SELECT username WHERE" ++ filters.to[Fragment]
 
 ## Converting to [elastic4s](https://github.com/sksamuel/elastic4s) `Query`
 ```scala
-import com.github.moust.racoon.elastic4s.implicits._
-import com.github.moust.racoon.implicits._
+import io.github.moust.racoon.elastic4s.implicits._
+import io.github.moust.racoon.implicits._
 import com.sksamuel.elastic4s.ElasticDsl._
 import com.sksamuel.elastic4s.requests.searches.queries.Query
 
