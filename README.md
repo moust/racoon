@@ -1,9 +1,9 @@
 racoon - Search query parser and converter for Scala
 =========
 
-![ci](https://github.com/moust/racoon/actions/workflows/ci.yml/badge.svg)
+![ci](https://github.io/github/moust/racoon/actions/workflows/ci.yml/badge.svg)
 [![racoon-core Scala version support](https://index.scala-lang.org/moust/racoon/racoon-core/latest-by-scala-version.svg)](https://index.scala-lang.org/moust/racoon/racoon-core)
-[<img src="https://img.shields.io/nexus/s/https/oss.sonatype.org/io.github.moust.racoon/racoon-core_2.13.svg?label=latest%20snapshot&style=plastic"/>](https://oss.sonatype.org/content/repositories/snapshots/com/moust/racoon/)
+[<img src="https://img.shields.io/nexus/s/https/oss.sonatype.org/io.github.moust.racoon/racoon-core_2.13.svg?label=latest%20snapshot&style=plastic"/>](https://oss.sonatype.org/content/repositories/snapshots/io/github/moust/racoon/)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.moust/racoon-core_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.moust/racoon-core_2.12)
 [![javadoc](https://javadoc.io/badge2/io.github.moust/racoon-core_2.12/javadoc.svg)](https://javadoc.io/doc/io.github.moust/racoon-core_2.12)
 
