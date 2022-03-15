@@ -19,8 +19,6 @@ package racoon.util
 import racoon.operators._
 import racoon.implicits._
 
-import scala.language.postfixOps
-
 class SyntaxSuite extends munit.FunSuite {
 
   test("Eql") {

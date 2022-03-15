@@ -22,8 +22,6 @@ import doobie.implicits._
 import racoon.doobie.implicits._
 import racoon.implicits._
 
-import scala.language.postfixOps
-
 class DoobieAlgebraSuite extends munit.FunSuite {
 
   test("""foo = "bar"""") {

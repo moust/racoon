@@ -22,8 +22,6 @@ import com.sksamuel.elastic4s.requests.searches.queries.Query
 import racoon.elastic4s.implicits._
 import racoon.implicits._
 
-import scala.language.postfixOps
-
 class Elastic4sAlgebraSuite extends munit.FunSuite {
 
   test("""foo = "bar"""") {
