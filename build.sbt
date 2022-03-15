@@ -12,7 +12,7 @@ ThisBuild / crossScalaVersions := Seq("2.12.15", "2.13.8")
 
 ThisBuild / tlBaseVersion           := "1.0"
 ThisBuild / tlCiReleaseBranches     := Seq("master")
-ThisBuild / tlSonatypeUseLegacyHost := true
+ThisBuild / tlSonatypeUseLegacyHost := false
 
 lazy val commonSettings = Seq(
   resolvers ++= Seq(Resolver.mavenLocal),
