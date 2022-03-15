@@ -2,106 +2,107 @@ package racoon.elastic4s
 
 import cats.data.NonEmptyList
 import com.sksamuel.elastic4s.ElasticDsl._
-import com.sksamuel.elastic4s.ElasticProperties
 import com.sksamuel.elastic4s.requests.searches.queries.Query
 import racoon.elastic4s.implicits._
-import racoon.operators._
+import racoon.implicits._
+
+import scala.language.postfixOps
 
 class Elastic4sAlgebraSuite extends munit.FunSuite {
 
   test("""foo = "bar"""") {
-    val operator = Eql(Const("foo"), Value("bar"))
+    val operator = "foo" === "bar"
     val expected = termQuery("foo", "bar")
     val result = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo != "bar"""") {
-    val operator = NotEql(Const("foo"), Value("bar"))
+    val operator = "foo" =!= "bar"
     val expected = not(termQuery("foo", "bar"))
     val result = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo > 0""") {
-    val operator = Gt(Const("foo"), Value(0))
+    val operator =  "foo" gt 0
     val expected = rangeQuery("foo").gt(0)
     val result = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo < 100""") {
-    val operator = Lt(Const("foo"), Value(100))
+    val operator =  "foo" lt 100
     val expected = rangeQuery("foo").lt(100)
     val result = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo >= 0""") {
-    val operator = Gte(Const("foo"), Value(0))
+    val operator = "foo" gte 0
     val expected = rangeQuery("foo").gte(0)
     val result = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo <= 100""") {
-    val operator = Lte(Const("foo"), Value(100))
+    val operator = "foo" lte 100
     val expected = rangeQuery("foo").lte(100)
     val result = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo LIKE "%ba_"""") {
-    val operator = Like(Const("foo"), Value("%ba_"))
+    val operator = "foo" like "%ba_"
     val expected = wildcardQuery("foo", "*ba?")
     val result = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
-  test("""foo NOT LIKE "%bar%"""") {
-    val operator = NotLike(Const("foo"), Value("%ba_"))
+  test("""foo NOT LIKE "%ba_"""") {
+    val operator = "foo" notLike "%ba_"
     val expected = not(wildcardQuery("foo", "*ba?"))
     val result = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo EXISTS""") {
-    val operator = Exists(Const("foo"))
+    val operator = "foo" notNull
     val expected = existsQuery("foo")
     val result = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo NOT EXISTS""") {
-    val operator = NotExists(Const("foo"))
+    val operator = "foo" isNull
     val expected = not(existsQuery("foo"))
     val result = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo IN [1, 2, 3]""") {
-    val operator = In(Const("foo"), Values(NonEmptyList.of(Value(1), Value(2), Value(3))))
+    val operator = "foo" in List(1, 2, 3)
     val expected = termsQuery("foo", NonEmptyList.of(1, 2, 3))
     val result = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo NOT IN [1, 2, 3]""") {
-    val operator = NotIn(Const("foo"), Values(NonEmptyList.of(Value(1), Value(2), Value(3))))
+    val operator = "foo" notIn List(1, 2, 3)
     val expected = not(termsQuery("foo", NonEmptyList.of(1, 2, 3)))
     val result = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
   test("""foo BETWEEN 1 AND 10""") {
-    val operator = Between(Const("foo"), Value(1), Value(10))
+    val operator = "foo" between 1 and 10
     val expected = rangeQuery("foo").gte(1).lte(10)
     val result = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 
-  test("""(foo = "bar") AND (baz = "bar")""") {
-    val operator = And(Eql(Const("foo"), Value("bar")), Eql(Const("baz"), Value("bar")))
+  test(""""foo" === "bar" and "baz" === "bar"""") {
+    val operator = "foo" === "bar" and "baz" === "bar"
     val expected = boolQuery().must(
       termQuery("foo", "bar"),
       termQuery("baz", "bar")
@@ -110,13 +111,23 @@ class Elastic4sAlgebraSuite extends munit.FunSuite {
     assertNoDiff(result.toString, expected.toString)
   }
 
-  test("""(foo = "bar") OR (baz = "bar")""") {
-    val operator = Or(Eql(Const("foo"), Value("bar")), Eql(Const("baz"), Value("bar")))
+  test(""""foo" === "bar" or "baz" === "bar"""") {
+    val operator = "foo" === "bar" or "baz" === "bar"
     val expected = boolQuery().should(
       termQuery("foo", "bar"),
       termQuery("baz", "bar")
     )
     val result = operator.to[Query]
+    assertNoDiff(result.toString, expected.toString)
+  }
+
+  test(""""user.id" === 123 and "user.status" =!= "inactive"""") {
+    val filters = "user.id" === 123 and "user.status" =!= "inactive"
+    val expected = boolQuery().must(
+      termQuery("user.id", 123),
+      boolQuery().not(termQuery("user.status", "inactive"))
+    )
+    val result = filters.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 

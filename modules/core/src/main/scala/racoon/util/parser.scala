@@ -102,7 +102,7 @@ object parser {
       _ <- operator("in")
       rhs <- values
     } yield {
-      val values = Values(NonEmptyList.fromListUnsafe(rhs.map(Value(_))))
+      val values = Values(rhs)
       not match {
         case Some(_) => (lhs: Const) => NotIn(lhs, values)
         case None => (lhs: Const) => In(lhs, values)

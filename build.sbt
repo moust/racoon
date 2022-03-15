@@ -3,6 +3,9 @@ import Dependencies._
 ThisBuild / organization := "com.moust.racoon"
 ThisBuild / organizationName := "Quentin Aupetit"
 ThisBuild / licenses := Seq(License.Apache2)
+ThisBuild / developers := List(
+  tlGitHubDev("moust", "Quentin Aupetit")
+)
 
 ThisBuild / scalaVersion := "2.12.15"
 ThisBuild / crossScalaVersions := Seq("2.12.15", "2.13.8")
@@ -10,9 +13,6 @@ ThisBuild / crossScalaVersions := Seq("2.12.15", "2.13.8")
 ThisBuild / tlBaseVersion := "1.0"
 ThisBuild / tlCiReleaseBranches := Seq("master")
 ThisBuild / tlSonatypeUseLegacyHost := true
-ThisBuild / developers := List(
-  tlGitHubDev("moust", "Quentin Aupetit")
-)
 
 lazy val commonSettings = Seq(
   resolvers ++= Seq(Resolver.mavenLocal),

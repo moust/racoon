@@ -51,6 +51,13 @@ object operators {
       algebra.values(this)
   }
 
+  object Values {
+    def apply[T](values: List[T]): Values[T] =
+      Values(
+        NonEmptyList.fromListUnsafe(values.map(Value(_)))
+      )
+  }
+
   case class Eql[T](left: Const, right: Value[T]) extends Op {
     def algebra[A](implicit algebra: ToAlgebra[A]): Algebra[A] = {
       algebra.equal(left, right)

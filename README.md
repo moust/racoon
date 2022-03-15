@@ -19,7 +19,7 @@ libraryDependencies ++= Seq(
   "com.moust" %% "racoon-core" % racoonVersion,
   // Add any of these as needed
   "com.moust" %% "racoon-doobie" % racoonVersion, // doobie algebra
-  "com.moust" %% "racoon-elastic4s" % racoonVersion, // elastic4s algebra
+  "com.moust" %% "racoon-elastic4s" % racoonVersion // elastic4s algebra
 )
 ```
 
@@ -34,7 +34,7 @@ Parser.parse("""user_id = 123 and status = "active"""")
 
 ## Writing operation
 
-**racoon** define an ADT to write complexe query :
+**racoon** define an ADT to write complex query :
 
 ```scala
 import com.moust.racoon.operators._
@@ -43,43 +43,59 @@ val filters = And(
   Eql(Const("user.status"), Value("active"))
   Or(
     Eql(Const("user.team"), Value("developer")),
-    In(Const("user.role"), Values(NonEmptyList.of("admin", "moderator"))),
+    In(Const("user.role"), Values(List("admin", "moderator"))),
   )
 )
+```
+
+Or you can use the syntax api to write more readable query :
+
+```scala
+import com.moust.racoon.implicits._
+
+val filters = ("user.status" === "active") and (("user.team" === "developer") or ("user.role" in List("admin", "moderator")))
+// => And(Eql(Const("user.status"), Value("active")), Or(Eql(Const("user.team"), Value("developer")), In(Const("user.role"), Values(List("admin", "moderator")))))
 ```
 
 ## Converting to [doobie](https://github.com/tpolecat/doobie) `Fragment`
 
 ```scala
 import com.moust.racoon.doobie.implicits._
-import com.moust.racoon.operators._
+import com.moust.racoon.implicits._
 import doobie.Fragment
 import doobie.implicits._
 
-val filters = And(
-  Eql(Const("user.id"), Value(123)),
-  Eql(Const("user.status"), Value("active"))
-)
+val filters = "user.id" === 123 and "user.status" =!= "inactive"
 fr"SELECT username WHERE" ++ filters.to[Fragment]
   .query[String]
   .to[List]
   .transact(xa)
-// => "SELECT * WHERE user_id = ? AND status = ?"
+// => "SELECT * WHERE (user_id = ?) AND (status != ?)"
 ```
 
 ## Converting to [elastic4s](https://github.com/sksamuel/elastic4s) `Query`
 ```scala
 import com.moust.racoon.elastic4s.implicits._
-import com.moust.racoon.operators._
+import com.moust.racoon.implicits._
 import com.sksamuel.elastic4s.ElasticDsl._
 import com.sksamuel.elastic4s.requests.searches.queries.Query
 
-val filters = And(
-  Eql(Const("user.id"), Value(123)),
-  Eql(Const("user.status"), Value("active"))
-)
+val filters = "user.id" === 123 and "user.status" =!= "inactive"
 search("test").query(filters.to[Query]).show
-// => {"query":{"bool":{"must":[{"term":{"user.id":{"value":123}}},{"term":{"user.status":{"value":"active"}}}]}}}
+// {
+//   "query":{
+//     "bool":{
+//       "must":[
+//         {"term":{"user.id":{"value":123}}},
+//         {"bool":{
+//           "must_not":[
+//             {"term":{"user.status":{"value":"inactive"}}}
+//           ]
+//         }}
+//       ]
+//     }
+//   }
+// }
 ```
 
 ## Custom converter
@@ -87,20 +103,20 @@ search("test").query(filters.to[Query]).show
 You can write your own converter by extending the trait `ToAlgebra[A]`.
 
 ## License
+
 ```
-This software is licensed under the Apache 2 license, quoted below.
+Copyright 2022 Quentin Aupetit
 
-Copyright 2021-2024 Quentin Aupetit
-
-Licensed under the Apache License, Version 2.0 (the "License"); you may not
-use this file except in compliance with the License. You may obtain a copy of
-the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-License for the specific language governing permissions and limitations under
-the License.
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
 ```

@@ -7,10 +7,12 @@ import implicits._
 import org.scalacheck.Arbitrary
 import org.scalacheck.Prop.forAll
 
+import scala.reflect._
+
 class AlgebraSuite extends munit.ScalaCheckSuite {
 
-  def testType[A: Arbitrary]: Unit =
-    test(s"Value[${getClass[A]}]") {
+  def testType[A: Arbitrary: ClassTag]: Unit =
+    test(s"Value[${classTag[A]}]") {
       forAll { (x: A) =>
         assert(Value(x).value.toString === x.toString)
       }
@@ -97,14 +99,14 @@ class AlgebraSuite extends munit.ScalaCheckSuite {
 
   test("x in (1,2,3)") {
     assertEquals(
-      In(Const("x"), Values(NonEmptyList.of(Value(1), Value(2), Value(3)))).algebra[String].value,
+      In(Const("x"), Values(List(1, 2, 3))).algebra[String].value,
       "x in (1,2,3)"
     )
   }
 
   test("x not in (1,2,3)") {
     assertEquals(
-      NotIn(Const("x"), Values(NonEmptyList.of(Value(1), Value(2), Value(3)))).algebra[String].value,
+      NotIn(Const("x"), Values(List(1, 2, 3))).algebra[String].value,
       "x not in (1,2,3)"
     )
   }
