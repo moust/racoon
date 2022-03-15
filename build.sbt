@@ -1,6 +1,6 @@
 import Dependencies._
 
-ThisBuild / organization     := "com.moust.racoon"
+ThisBuild / organization     := "com.github.moust"
 ThisBuild / organizationName := "Quentin Aupetit"
 ThisBuild / licenses         := Seq(License.Apache2)
 ThisBuild / developers := List(
