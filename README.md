@@ -1,11 +1,10 @@
 racoon - Search query parser and converter for Scala
 =========
 
-![ci](https://github.io/github/moust/racoon/actions/workflows/ci.yml/badge.svg)
-[![racoon-core Scala version support](https://index.scala-lang.org/moust/racoon/racoon-core/latest-by-scala-version.svg)](https://index.scala-lang.org/moust/racoon/racoon-core)
-[<img src="https://img.shields.io/nexus/s/https/oss.sonatype.org/io.github.moust.racoon/racoon-core_2.13.svg?label=latest%20snapshot&style=plastic"/>](https://oss.sonatype.org/content/repositories/snapshots/io/github/moust/racoon/)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.moust/racoon-core_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.moust/racoon-core_2.12)
-[![javadoc](https://javadoc.io/badge2/io.github.moust/racoon-core_2.12/javadoc.svg)](https://javadoc.io/doc/io.github.moust/racoon-core_2.12)
+[![Build status](https://img.shields.io/github/workflow/status/moust/racoon/Continuous%20Integration.svg)](https://github.com/moust/racoon/actions)
+[![latest snapshot](https://img.shields.io/nexus/s/https/s01.oss.sonatype.org/io.github.moust/racoon-core_2.13.svg?label=latest%20snapshot)](https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/moust/racoon-core_2.12/)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.moust/racoon-core_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.moust/racoon-core_2.13)
+[![javadoc](https://javadoc.io/badge2/io.github.moust/racoon-core_2.13/javadoc.svg)](https://javadoc.io/doc/io.github.moust/racoon-core_2.13)
 
 **racoon** is a pure functional Scala library for parsing search query strings and converting them for various query language like SQL ([doobie](https://github.com/tpolecat/doobie)) or elasticsearch ([elastic4s](https://github.com/sksamuel/elastic4s)) for example. 
 
@@ -118,5 +117,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
 ```
