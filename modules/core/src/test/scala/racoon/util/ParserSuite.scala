@@ -16,6 +16,8 @@
 
 package racoon.util
 
+import java.time.{LocalDate, LocalDateTime, LocalTime, ZonedDateTime}
+
 import cats.data.NonEmptyList
 import cats.syntax.eq._
 import org.scalacheck.Arbitrary
@@ -39,6 +41,10 @@ class ParserSuite extends munit.ScalaCheckSuite {
   testType[Float]("Float")
   testType[Double]("Double")
   testType[String]("String")
+  testType[LocalTime]("LocalTime")
+  testType[LocalDate]("LocalDate")
+  testType[LocalDateTime]("LocalDateTime")
+  testType[ZonedDateTime]("ZonedDateTime")
 
   test("Parser must parse x=1") {
     assertEquals(

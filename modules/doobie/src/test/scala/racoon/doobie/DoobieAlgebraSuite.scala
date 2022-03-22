@@ -16,10 +16,13 @@
 
 package racoon.doobie
 
+import java.time.{LocalDate, LocalDateTime, LocalTime, ZonedDateTime}
+
 import cats.data.NonEmptyList
 import doobie.{Fragment, Fragments}
 import doobie.implicits._
 import racoon.doobie.implicits._
+import doobie.implicits.javatimedrivernative._
 import racoon.implicits._
 
 class DoobieAlgebraSuite extends munit.FunSuite {
@@ -28,6 +31,42 @@ class DoobieAlgebraSuite extends munit.FunSuite {
     val operator = "foo" === "bar"
     val expected = fr"foo = ${"bar"}"
     val result   = operator.to[Fragment]
+    assertNoDiff(result.internals.sql, expected.internals.sql)
+    assertEquals(result.internals.elements, expected.internals.elements)
+  }
+
+  test("""date = 13:37:00""") {
+    val timeValue = LocalTime.parse("13:37:00")
+    val operator  = "time" === timeValue
+    val expected  = fr"time = $timeValue"
+    val result    = operator.to[Fragment]
+    assertNoDiff(result.internals.sql, expected.internals.sql)
+    assertEquals(result.internals.elements, expected.internals.elements)
+  }
+
+  test("""date = 2020-01-01""") {
+    val dateValue = LocalDate.parse("2020-01-01")
+    val operator  = "date" === dateValue
+    val expected  = fr"date = $dateValue"
+    val result    = operator.to[Fragment]
+    assertNoDiff(result.internals.sql, expected.internals.sql)
+    assertEquals(result.internals.elements, expected.internals.elements)
+  }
+
+  test("""datetime = 2020-01-01T13:37:00""") {
+    val dateTimeValue = LocalDateTime.parse("2020-01-01T13:37:00")
+    val operator      = "date" === dateTimeValue
+    val expected      = fr"date = $dateTimeValue"
+    val result        = operator.to[Fragment]
+    assertNoDiff(result.internals.sql, expected.internals.sql)
+    assertEquals(result.internals.elements, expected.internals.elements)
+  }
+
+  test("""datetime = 2020-01-01T13:37:00+01:00""") {
+    val dateTimeValue = ZonedDateTime.parse("2020-01-01T13:37:00+01:00")
+    val operator      = "date" === dateTimeValue
+    val expected      = fr"date = $dateTimeValue"
+    val result        = operator.to[Fragment]
     assertNoDiff(result.internals.sql, expected.internals.sql)
     assertEquals(result.internals.elements, expected.internals.elements)
   }

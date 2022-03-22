@@ -16,8 +16,11 @@
 
 package racoon.doobie
 
+import java.time.{LocalDate, LocalDateTime, LocalTime, ZonedDateTime}
+
 import doobie.{Fragment, Fragments}
 import doobie.implicits._
+import doobie.implicits.javatimedrivernative._
 import racoon.{Algebra, ToAlgebra}
 import racoon.operators._
 
@@ -42,15 +45,19 @@ trait algebra {
 
     override def value[T](a: Value[T]): Algebra[Fragment] = new Algebra[Fragment] {
       val value: Fragment = a match {
-        case Value(v: String)     => Fragments.values[String](v)
-        case Value(v: Long)       => Fragments.values[Long](v)
-        case Value(v: Int)        => Fragments.values[Int](v)
-        case Value(v: Short)      => Fragments.values[Short](v)
-        case Value(v: Byte)       => Fragments.values[Byte](v)
-        case Value(v: BigDecimal) => Fragments.values[BigDecimal](v)
-        case Value(v: Double)     => Fragments.values[Double](v)
-        case Value(v: Float)      => Fragments.values[Float](v)
-        case Value(v: Boolean)    => Fragments.values[Boolean](v)
+        case Value(v: String)        => Fragments.values[String](v)
+        case Value(v: Long)          => Fragments.values[Long](v)
+        case Value(v: Int)           => Fragments.values[Int](v)
+        case Value(v: Short)         => Fragments.values[Short](v)
+        case Value(v: Byte)          => Fragments.values[Byte](v)
+        case Value(v: BigDecimal)    => Fragments.values[BigDecimal](v)
+        case Value(v: Double)        => Fragments.values[Double](v)
+        case Value(v: Float)         => Fragments.values[Float](v)
+        case Value(v: Boolean)       => Fragments.values[Boolean](v)
+        case Value(v: LocalTime)     => Fragments.values[LocalTime](v)
+        case Value(v: LocalDate)     => Fragments.values[LocalDate](v)
+        case Value(v: LocalDateTime) => Fragments.values[LocalDateTime](v)
+        case Value(v: ZonedDateTime) => Fragments.values[ZonedDateTime](v)
         case _ => throw new UnsupportedOperationException(s"Value $a of type ${a.getClass} is not supported.")
       }
     }

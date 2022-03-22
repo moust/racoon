@@ -16,6 +16,9 @@
 
 package racoon.elastic4s
 
+import java.time.{LocalDate, LocalDateTime, LocalTime, ZonedDateTime}
+import java.time.format.DateTimeFormatter
+
 import cats.data.NonEmptyList
 import com.sksamuel.elastic4s.ElasticDsl._
 import com.sksamuel.elastic4s.requests.searches.queries.Query
@@ -31,6 +34,38 @@ class Elastic4sAlgebraSuite extends munit.FunSuite {
     assertNoDiff(result.toString, expected.toString)
   }
 
+  test("""date = 13:37:00""") {
+    val timeValue = LocalTime.parse("13:37:00")
+    val operator  = "date" === timeValue
+    val expected  = termQuery("date", timeValue)
+    val result    = operator.to[Query]
+    assertNoDiff(result.toString, expected.toString)
+  }
+
+  test("""date = 2020-01-01""") {
+    val dateValue = LocalDate.parse("2020-01-01")
+    val operator  = "date" === dateValue
+    val expected  = termQuery("date", dateValue)
+    val result    = operator.to[Query]
+    assertNoDiff(result.toString, expected.toString)
+  }
+
+  test("""datetime = 2020-01-01T13:37:00""") {
+    val dateTimeValue = LocalDateTime.parse("2020-01-01T13:37:00")
+    val operator      = "date" === dateTimeValue
+    val expected      = termQuery("date", dateTimeValue)
+    val result        = operator.to[Query]
+    assertNoDiff(result.toString, expected.toString)
+  }
+
+  test("""datetime = 2020-01-01T13:37:00+01:00""") {
+    val dateTimeValue = ZonedDateTime.parse("2020-01-01T13:37:00+01:00")
+    val operator      = "date" === dateTimeValue
+    val expected      = termQuery("date", dateTimeValue)
+    val result        = operator.to[Query]
+    assertNoDiff(result.toString, expected.toString)
+  }
+
   test("""foo != "bar"""") {
     val operator = "foo" =!= "bar"
     val expected = not(termQuery("foo", "bar"))
@@ -42,6 +77,38 @@ class Elastic4sAlgebraSuite extends munit.FunSuite {
     val operator = "foo" gt 0
     val expected = rangeQuery("foo").gt(0)
     val result   = operator.to[Query]
+    assertNoDiff(result.toString, expected.toString)
+  }
+
+  test("""time > 13:37:00""") {
+    val timeValue = LocalTime.parse("13:37:00")
+    val operator  = "time" gt timeValue
+    val expected  = rangeQuery("time").gt(timeValue.format(DateTimeFormatter.ISO_LOCAL_TIME))
+    val result    = operator.to[Query]
+    assertNoDiff(result.toString, expected.toString)
+  }
+
+  test("""date > 2020-01-01""") {
+    val dateValue = LocalDate.parse("2020-01-01")
+    val operator  = "date" gt dateValue
+    val expected  = rangeQuery("date").gt(dateValue.format(DateTimeFormatter.ISO_LOCAL_DATE))
+    val result    = operator.to[Query]
+    assertNoDiff(result.toString, expected.toString)
+  }
+
+  test("""date > 2020-01-01T13:37:00""") {
+    val dateTimeValue = LocalDateTime.parse("2020-01-01T13:37:00")
+    val operator      = "date" gt dateTimeValue
+    val expected      = rangeQuery("date").gt(dateTimeValue.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+    val result        = operator.to[Query]
+    assertNoDiff(result.toString, expected.toString)
+  }
+
+  test("""datetime > 2020-01-01T13:37:00+01:00""") {
+    val dateTimeValue = ZonedDateTime.parse("2020-01-01T13:37:00+01:00")
+    val operator      = "date" gt dateTimeValue
+    val expected      = rangeQuery("date").gt(dateTimeValue.format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
+    val result        = operator.to[Query]
     assertNoDiff(result.toString, expected.toString)
   }
 

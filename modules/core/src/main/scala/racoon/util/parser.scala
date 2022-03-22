@@ -20,7 +20,7 @@ import atto.Atto._
 import atto.Parser
 import operators._
 
-object parser {
+object parser extends DateTimeParser {
 
   /** Parse query argument, yielding a corresponding `[[Op]]` sequence.
     */
@@ -43,7 +43,8 @@ object parser {
   private lazy val const: Parser[String] =
     stringOf1(letterOrDigit | char('-') | char('_') | char('.'))
 
-  private lazy val value: Parser[Any] = number | boolean | stringLiteral
+  private lazy val value: Parser[Any] =
+    zonedDateTime | localDateTime | localDate | localTime | number | boolean | stringLiteral
 
   private lazy val values: Parser[List[Any]] = parens(
     sepBy(value, token(many(whitespace) ~> char(',') <~ many(whitespace)))
